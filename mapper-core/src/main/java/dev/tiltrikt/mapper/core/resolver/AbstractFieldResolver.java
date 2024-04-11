@@ -11,7 +11,6 @@ public abstract class AbstractFieldResolver {
 
     Class<?> targetClass = target.getClass();
     Optional<Field> resolvedField;
-
     do {
       Field targetField = null;
       try {
@@ -21,7 +20,6 @@ public abstract class AbstractFieldResolver {
       resolvedField = Optional.ofNullable(targetField);
       targetClass = targetClass.getSuperclass();
     } while (resolvedField.isEmpty() && targetClass != null);
-
     return resolvedField;
   }
 }

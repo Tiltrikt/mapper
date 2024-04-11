@@ -20,11 +20,6 @@ public final class AnnotationFieldResolver extends AbstractFieldResolver impleme
       throw new MapperException("No field with FieldMapping annotation");
     }
 
-    Optional<Field> resolvedField = findField(sourceName, target);
-
-    if(resolvedField.isEmpty()) {
-      throw new MapperException("No field with name %s in target class", sourceField);
-    }
-    return resolvedField;
+    return findField(sourceName, target);
   }
 }
