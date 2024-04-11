@@ -13,14 +13,14 @@ public final class AnnotationFieldResolver extends AbstractFieldResolver impleme
   @Override
   public @NotNull Optional<Field> resolve(@NotNull Field sourceField, @NotNull Object target) {
 
-    Class<?> targetClass = target.getClass();
-    Optional<Field> resolvedField;
-    String sourceName = sourceField.getAnnotation(FieldMapping.class).targetName();
+    String sourceName;
+    try {
+       sourceName = sourceField.getAnnotation(FieldMapping.class).targetName();
+    } catch (NullPointerException e) {
+      throw new MapperException("No field with FieldMapping annotation");
+    }
 
-    do {
-      resolvedField = findField(sourceName, targetClass);
-      targetClass = targetClass.getSuperclass();
-    } while (resolvedField.isEmpty() && targetClass != null);
+    Optional<Field> resolvedField = findField(sourceName, target);
 
     if(resolvedField.isEmpty()) {
       throw new MapperException("No field with name %s in target class", sourceField);

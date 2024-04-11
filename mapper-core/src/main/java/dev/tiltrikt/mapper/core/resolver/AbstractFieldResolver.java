@@ -7,13 +7,21 @@ import java.util.Optional;
 
 public abstract class AbstractFieldResolver {
 
-  public @NotNull Optional<Field> findField(@NotNull String sourceName, @NotNull Class<?> targetClass) {
+  public @NotNull Optional<Field> findField(@NotNull String sourceName, @NotNull Object target) {
 
+    Class<?> targetClass = target.getClass();
+    Optional<Field> resolvedField;
+
+    do {
       Field targetField = null;
       try {
         targetField = targetClass.getDeclaredField(sourceName);
       } catch (NoSuchFieldException ignored) {
       }
-      return Optional.ofNullable(targetField);
+      resolvedField = Optional.ofNullable(targetField);
+      targetClass = targetClass.getSuperclass();
+    } while (resolvedField.isEmpty() && targetClass != null);
+
+    return resolvedField;
   }
 }
