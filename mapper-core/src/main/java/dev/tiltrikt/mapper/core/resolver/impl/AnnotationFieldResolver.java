@@ -15,7 +15,7 @@ public final class AnnotationFieldResolver extends AbstractFieldResolver impleme
 
     String sourceName;
     try {
-       sourceName = sourceField.getAnnotation(FieldMapping.class).targetName();
+      sourceName = sourceField.getAnnotation(FieldMapping.class).targetName();
     } catch (NullPointerException e) {
       throw new MapperException("No field with FieldMapping annotation");
     }

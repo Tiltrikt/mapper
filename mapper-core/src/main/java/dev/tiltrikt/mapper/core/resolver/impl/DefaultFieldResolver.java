@@ -2,10 +2,9 @@ package dev.tiltrikt.mapper.core.resolver.impl;
 
 import dev.tiltrikt.mapper.core.resolver.AbstractFieldResolver;
 import dev.tiltrikt.mapper.core.resolver.FieldResolver;
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.Field;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 public final class DefaultFieldResolver extends AbstractFieldResolver implements FieldResolver {
 

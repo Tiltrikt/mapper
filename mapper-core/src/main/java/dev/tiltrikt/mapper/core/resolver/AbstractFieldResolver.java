@@ -1,9 +1,8 @@
 package dev.tiltrikt.mapper.core.resolver;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.Field;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractFieldResolver {
 

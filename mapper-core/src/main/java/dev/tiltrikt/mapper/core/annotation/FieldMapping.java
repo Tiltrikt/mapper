@@ -10,5 +10,9 @@ import org.jetbrains.annotations.NotNull;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldMapping {
 
-  @NotNull String targetName();
+  @NotNull String EMPTY_TARGET = "";
+
+  @NotNull String targetName() default EMPTY_TARGET;
+
+  boolean ignore() default false;
 }

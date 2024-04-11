@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
-@FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public final class MapperImpl implements Mapper {
 
   @NotNull ObjectFactory objectFactory = new ObjetFactoryImpl();
