@@ -1,4 +1,0 @@
-dependencies {
-  api 'org.springframework.kafka:spring-kafka'
-  api project(":score-service:score-service-commons-api")
-}

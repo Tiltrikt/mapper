@@ -4,34 +4,11 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = 'tetravex'
+rootProject.name = 'mapper'
 
 [
-        'commons:commons-mapper',
-        'commons:commons-core',
-        'commons:commons-jpa',
-        'commons:commons-rest',
-
-        'security-service:security-service',
-
-        'rating-service:rating-service',
-        'rating-service:rating-service-rest-api',
-
-        'score-service:score-service',
-        'score-service:score-service-commons-api',
-        'score-service:score-service-rest-api',
-        'score-service:score-service-kafka-api',
-
-        'comment-service:comment-service',
-        'comment-service:comment-service-rest-api',
-
-        'tetravex-service:tetravex-service',
-        'tetravex-service:tetravex-service-rest-api',
-
-        'tetravex-client',
-
-        'tetravex-eureka-server',
-        'tetravex-api-gateway'
+        'mapper-core',
+        'mapper-starter-spring',
 ].forEach {
   include it
 }

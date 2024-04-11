@@ -1,3 +1,0 @@
-dependencies {
-  api project(":score-service:score-service-commons-api")
-}
