@@ -1,25 +1,25 @@
 plugins {
-  id 'idea'
-  id 'java-library'
-  id 'org.springframework.boot' version "$springBootVersion"
-  id 'io.spring.dependency-management' version "$springDependencyManagementPluginVersion"
+    id 'idea'
+    id 'java-library'
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version "$springDependencyManagementPluginVersion"
 }
 
 allprojects {
 
-  apply plugin: 'idea'
-  apply plugin: 'java-library'
+    apply plugin: 'idea'
+    apply plugin: 'java-library'
 
-  group = 'dev.tiltrikt'
-  version = '0.0.1-SNAPSHOT'
+    group = 'dev.tiltrikt'
+    version = '0.0.1-SNAPSHOT'
 
-  sourceCompatibility = '17'
-  targetCompatibility = '17'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 
-  dependencies {
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
-    compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+    dependencies {
+        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+        compileOnly "org.projectlombok:lombok:$lombokVersion"
+        compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 
-  }
+    }
 }

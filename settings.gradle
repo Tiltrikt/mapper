@@ -1,7 +1,7 @@
 dependencyResolutionManagement {
-  repositories {
-    mavenCentral()
-  }
+    repositories {
+        mavenCentral()
+    }
 }
 
 rootProject.name = 'mapper'
@@ -10,21 +10,21 @@ rootProject.name = 'mapper'
         'mapper-core',
         'mapper-starter-spring',
 ].forEach {
-  include it
+    include it
 }
 
 rootProject.children.each { project ->
-  {
-    setProjectBuildFileName(project)
-  }
+    {
+        setProjectBuildFileName(project)
+    }
 }
 
 void setProjectBuildFileName(project) {
-  project.buildFileName = "${project.name}.gradle"
-  project.children.each { subproject ->
-    {
-      setProjectBuildFileName(subproject)
+    project.buildFileName = "${project.name}.gradle"
+    project.children.each { subproject ->
+        {
+            setProjectBuildFileName(subproject)
+        }
     }
-  }
 }
 
