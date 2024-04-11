@@ -9,6 +9,13 @@ public final class DefaultFieldResolver implements FieldResolver {
 
   @Override
   public @NotNull Optional<Field> resolve(@NotNull Field sourceField, @NotNull Object target) {
-    return Optional.empty();
+
+    String sourceName = sourceField.getName();
+    Field targetField = null;
+    try {
+      targetField = target.getClass().getDeclaredField(sourceName);
+    } catch (NoSuchFieldException ignored) {
+    }
+    return Optional.ofNullable(targetField);
   }
 }

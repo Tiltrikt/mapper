@@ -8,7 +8,7 @@ public class MapperException extends RuntimeException {
   }
 
   public MapperException(@NotNull String message, Object @NotNull ... params) {
-    super(message);
+    super(String.format(message, params));
   }
 
   public MapperException(@NotNull String message) {
