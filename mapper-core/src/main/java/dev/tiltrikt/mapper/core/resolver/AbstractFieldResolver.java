@@ -18,7 +18,7 @@ public abstract class AbstractFieldResolver {
       }
       resolvedField = Optional.ofNullable(targetField);
       targetClass = targetClass.getSuperclass();
-    } while (resolvedField.isEmpty() && targetClass != null);
+    } while (resolvedField.isEmpty() && targetClass != null && !targetClass.equals(Object.class));
     return resolvedField;
   }
 }

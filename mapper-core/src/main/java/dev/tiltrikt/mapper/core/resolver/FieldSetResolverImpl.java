@@ -18,7 +18,7 @@ public final class FieldSetResolverImpl implements FieldSetResolver {
     do {
       fieldSet.addAll(Arrays.stream(objectClass.getDeclaredFields()).toList());
       objectClass = objectClass.getSuperclass();
-    } while (!objectClass.getSuperclass().equals(Object.class));
+    } while (objectClass != null && !objectClass.equals(Object.class));
 
     return fieldSet
         .stream()
