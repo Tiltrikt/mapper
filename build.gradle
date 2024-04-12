@@ -38,7 +38,7 @@ allprojects {
         }
         publications {
             mapper(MavenPublication) {
-                from (components.java)
+                from(components.java)
                 groupId = project.group
                 artifactId = project.name
                 version = project.version
