@@ -11,14 +11,18 @@ public abstract class AbstractFieldResolver {
     Class<?> targetClass = target.getClass();
     Optional<Field> resolvedField;
     do {
-      Field targetField = null;
-      try {
-        targetField = targetClass.getDeclaredField(sourceName);
-      } catch (NoSuchFieldException ignored) {
-      }
-      resolvedField = Optional.ofNullable(targetField);
+      resolvedField = findFieldInClass(sourceName, targetClass);
       targetClass = targetClass.getSuperclass();
-    } while (resolvedField.isEmpty() && targetClass != null && !targetClass.equals(Object.class));
+    } while (!targetClass.equals(Object.class) && resolvedField.isEmpty());
+
     return resolvedField;
+  }
+
+  private @NotNull Optional<Field> findFieldInClass(@NotNull String sourceName, @NotNull Class<?> clazz) {
+    try {
+      return Optional.of(clazz.getDeclaredField(sourceName));
+    } catch (NoSuchFieldException e) {
+      return Optional.empty();
+    }
   }
 }
