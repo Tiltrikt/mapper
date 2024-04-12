@@ -1,6 +1,7 @@
 plugins {
     id 'idea'
     id 'java-library'
+    id 'maven-publish'
     id 'org.springframework.boot' version "$springBootVersion"
     id 'io.spring.dependency-management' version "$springDependencyManagementPluginVersion"
 }
@@ -9,6 +10,14 @@ allprojects {
 
     apply plugin: 'idea'
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    [compileJava, javadoc]*.options*.encoding = 'UTF-8'
 
     group = 'dev.tiltrikt'
     version = '0.0.1-SNAPSHOT'
@@ -21,5 +30,22 @@ allprojects {
         compileOnly "org.projectlombok:lombok:$lombokVersion"
         compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 
+    }
+
+    publishing {
+        repositories {
+            mavenLocal()
+        }
+        publications {
+            mapper(MavenPublication) {
+                from (components.java)
+                groupId = project.group
+                artifactId = project.name
+                version = project.version
+                pom {
+                    description = 'Mapper'
+                }
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ public class StarterMapperAutoconfiguration {
 
   @Bean
   @ConditionalOnMissingBean(Mapper.class)
-  public Mapper mapper() {
+  public Mapper mapperMap() {
     return new MapperImpl();
   }
 

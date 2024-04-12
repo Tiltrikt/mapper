@@ -49,6 +49,8 @@ public final class MapperImpl implements Mapper {
             @SneakyThrows
             @Override
             public void accept(Field field) {
+              field.setAccessible(true);
+              sourceField.setAccessible(true);
               field.set(target, sourceField.get(source));
             }
           }
