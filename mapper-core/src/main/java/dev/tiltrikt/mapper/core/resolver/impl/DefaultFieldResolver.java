@@ -10,7 +10,6 @@ public final class DefaultFieldResolver extends AbstractFieldResolver implements
 
   @Override
   public @NotNull Optional<Field> resolve(@NotNull Field sourceField, @NotNull Object target) {
-
     String sourceName = sourceField.getName();
     return findField(sourceName, target);
   }
