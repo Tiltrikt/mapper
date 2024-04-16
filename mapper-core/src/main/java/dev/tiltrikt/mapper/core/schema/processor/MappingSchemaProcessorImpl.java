@@ -13,6 +13,7 @@ public class MappingSchemaProcessorImpl implements MappingSchemaProcessor {
   public <S, T> @NotNull T map(@NotNull S source, @NotNull T target, @NotNull MappingSchema schema) {
 
     for (Field sourceField : schema.getFieldsToMap()) {
+      sourceField.setAccessible(true);
       Object object = sourceField.get(source);
       Field targetField = schema.getTargetField(sourceField);
       targetField.setAccessible(true);

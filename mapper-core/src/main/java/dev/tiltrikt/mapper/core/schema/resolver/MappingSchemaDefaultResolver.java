@@ -31,7 +31,7 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
       String sourceFieldName = fieldExplorer.getMappingName(sourceField);
       Field targetField = targetFieldsList
           .stream()
-          .filter(field -> fieldExplorer.getMappingName(sourceField).equals(sourceFieldName))
+          .filter(field -> fieldExplorer.getMappingName(field).equals(sourceFieldName))
           .findFirst()
           .orElseThrow(() -> new MappingSchemaException("Cannot find target field for %s", sourceFieldName));
 
@@ -51,7 +51,7 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
     }
     return fieldMap
         .stream()
-        .filter(field -> !field.getAnnotation(FieldMapping.class).ignore())
+        .filter(field -> fieldExplorer.shouldBeMapped(field))
         .toList();
   }
 }
