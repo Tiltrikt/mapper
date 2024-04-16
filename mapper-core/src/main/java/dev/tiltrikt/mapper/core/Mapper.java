@@ -9,10 +9,9 @@ public interface Mapper {
 
   @NotNull <S, T> T map(@NotNull S source, @NotNull T target);
 
-  @NotNull <S, T> T map(@NotNull S source, @NotNull Class<T> target,
-                        @NotNull MappingSchema<S, T> schema);
+  @NotNull <S, T> T map(@NotNull S source, @NotNull Class<T> target, @NotNull MappingSchema schema);
 
-  @NotNull <S, T> T map(@NotNull S source, @NotNull T target, @NotNull MappingSchema<S, T> schema);
+  @NotNull <S, T> T map(@NotNull S source, @NotNull T target, @NotNull MappingSchema schema);
 
 
   interface ObjectFactory {

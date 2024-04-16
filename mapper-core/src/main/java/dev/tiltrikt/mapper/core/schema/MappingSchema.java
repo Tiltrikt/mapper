@@ -3,13 +3,12 @@ package dev.tiltrikt.mapper.core.schema;
 import dev.tiltrikt.mapper.core.exception.MappingSchemaException;
 import org.jetbrains.annotations.NotNull;
 
-public interface MappingSchema<S, T> {
+import java.lang.reflect.Field;
+import java.util.List;
 
-  boolean shouldBeMapped(@NotNull String sourceField);
+public interface MappingSchema {
 
-  @NotNull String getTargetField(@NotNull String sourceField) throws MappingSchemaException;
+  @NotNull Field getTargetField(@NotNull Field sourceField) throws MappingSchemaException;
 
-  @NotNull Class<S> getSourceClass();
-
-  @NotNull Class<T> getTargetClass();
+  @NotNull List<Field> getFieldsToMap();
 }
