@@ -1,11 +1,12 @@
 package dev.tiltrikt.mapper.core.schema.resolver;
 
-import dev.tiltrikt.mapper.core.annotation.FieldMapping;
 import dev.tiltrikt.mapper.core.exception.MappingSchemaException;
 import dev.tiltrikt.mapper.core.schema.MappingSchema;
 import dev.tiltrikt.mapper.core.schema.MappingSchemaImpl;
 import dev.tiltrikt.mapper.core.schema.field.FieldExplorer;
 import dev.tiltrikt.mapper.core.schema.field.FieldExplorerImpl;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
 
   @NotNull FieldExplorer fieldExplorer = new FieldExplorerImpl();
@@ -51,7 +53,7 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
     }
     return fieldMap
         .stream()
-        .filter(field -> fieldExplorer.shouldBeMapped(field))
+        .filter(fieldExplorer::shouldBeMapped)
         .toList();
   }
 }
