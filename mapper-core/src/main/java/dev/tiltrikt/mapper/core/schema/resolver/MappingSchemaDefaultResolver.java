@@ -1,5 +1,6 @@
 package dev.tiltrikt.mapper.core.schema.resolver;
 
+import dev.tiltrikt.mapper.core.annotation.FieldMapping;
 import dev.tiltrikt.mapper.core.exception.MappingSchemaException;
 import dev.tiltrikt.mapper.core.schema.MappingSchema;
 import dev.tiltrikt.mapper.core.schema.MappingSchemaImpl;
@@ -22,14 +23,10 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
 
     Map<Field, Field> fieldMappingSchema = new HashMap<>();
 
-    List<Field> sourceFieldsList = getAllFields(source.getClass());
-    List<Field> targetFieldsList = getAllFields(target.getClass());
+    List<Field> sourceFieldsList = getMappableFields(source.getClass());
+    List<Field> targetFieldsList = getMappableFields(target.getClass());
 
     for (Field sourceField : sourceFieldsList) {
-
-      if (!fieldExplorer.shouldBeMapped(sourceField)) {
-        continue;
-      }
 
       String sourceFieldName = fieldExplorer.getMappingName(sourceField);
       Field targetField = targetFieldsList
@@ -38,23 +35,23 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
           .findFirst()
           .orElseThrow(() -> new MappingSchemaException("Cannot find target field for %s", sourceFieldName));
 
-      if (!fieldExplorer.shouldBeMapped(targetField)) {
-        continue;
-      }
-
       fieldMappingSchema.put(sourceField, targetField);
     }
 
     return new MappingSchemaImpl(fieldMappingSchema);
   }
 
-  private @NotNull List<Field> getAllFields(@NotNull Class<?> targetClass) {
+
+  private @NotNull List<Field> getMappableFields(@NotNull Class<?> targetClass) {
 
     List<Field> fieldMap = new ArrayList<>();
     while (!targetClass.equals(Object.class)) {
       fieldMap.addAll(List.of(targetClass.getDeclaredFields()));
       targetClass = targetClass.getSuperclass();
     }
-    return fieldMap;
+    return fieldMap
+        .stream()
+        .filter(field -> !field.getAnnotation(FieldMapping.class).ignore())
+        .toList();
   }
 }
