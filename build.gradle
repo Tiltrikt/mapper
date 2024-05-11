@@ -1,6 +1,7 @@
 plugins {
     id 'idea'
     id 'java-library'
+    id 'maven-publish'
     id 'org.springframework.boot' version "$springBootVersion"
     id 'io.spring.dependency-management' version "$springDependencyManagementPluginVersion"
 }
@@ -9,6 +10,7 @@ allprojects {
 
     apply plugin: 'idea'
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 
     java {
         withSourcesJar()
