@@ -38,8 +38,8 @@ allprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/tiltrikt/mapper")
                 credentials {
-                    username = System.getenv("github.actor")
-                    password = System.getenv("secrets.GITHUB_TOKEN")
+                    username = github.actor
+                    password = secrets.GITHUB_TOKEN
                 }
             }
         }
