@@ -20,7 +20,7 @@ allprojects {
     [compileJava, javadoc]*.options*.encoding = 'UTF-8'
 
     group = 'dev.tiltrikt'
-    version = '0.0.2-SNAPSHOT'
+    version = '0.0.3-SNAPSHOT'
 
     sourceCompatibility = '17'
     targetCompatibility = '17'
@@ -30,5 +30,29 @@ allprojects {
         compileOnly "org.projectlombok:lombok:$lombokVersion"
         compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/tiltrikt/mapper")
+                credentials {
+                    username = "tiltrikt"
+                    password = System.getenv("API_GITHUB")
+                }
+            }
+        }
+        publications {
+            mapper(MavenPublication) {
+                from(components.java)
+                groupId = project.group
+                artifactId = project.name
+                version = project.version
+                pom {
+                    description = 'Mapper'
+                }
+            }
+        }
     }
 }
