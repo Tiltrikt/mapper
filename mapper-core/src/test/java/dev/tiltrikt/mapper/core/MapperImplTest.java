@@ -60,7 +60,7 @@ class MapperImplTest {
     ).createInstance(SimpleFieldModel.class);
     verify(
         mapper,
-        times(2)
+        times(1)
     ).map(any(SimpleFieldModel.class), any(SimpleFieldModel.class));
   }
 
