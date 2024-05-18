@@ -53,9 +53,11 @@ allprojects {
         publications {
             mapper(MavenPublication) {
                 from(components.java)
+
                 groupId = project.group
                 artifactId = project.name
                 version = project.version
+
                 pom {
                     description = 'Mapper'
                 }
