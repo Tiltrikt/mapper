@@ -14,15 +14,9 @@ repositories {
   maven {
     name = "GitHubPackages"
     url = uri("https://maven.pkg.github.com/tiltrikt/mapper")
-    credentials {
-      username = GITHUB_USERNAME
-      password = GITHUB_TOKEN
-    }
   }
 }
 ```
-Link for token generation: https://github.com/settings/tokens<br>
-Make sure you grant the following permissions: **"read:packages"**
 
 ## Get started
 
@@ -61,4 +55,4 @@ public class MapperConfiguration() {
 ```
 
 ## Collaborator
-Temez: https://github.com/temez
+temez: https://github.com/temez
