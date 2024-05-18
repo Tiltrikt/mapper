@@ -3,7 +3,9 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:3.2.3'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 
     api project(":mapper-core")
 }

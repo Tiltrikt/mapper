@@ -25,11 +25,18 @@ allprojects {
     sourceCompatibility = '17'
     targetCompatibility = '17'
 
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
     dependencies {
         annotationProcessor "org.projectlombok:lombok:$lombokVersion"
         compileOnly "org.projectlombok:lombok:$lombokVersion"
         compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 
+        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+        testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+        testCompileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     }
 
     publishing {

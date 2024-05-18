@@ -12,11 +12,4 @@ public interface Mapper {
   @NotNull <S, T> T map(@NotNull S source, @NotNull Class<T> target, @NotNull MappingSchema schema);
 
   @NotNull <S, T> T map(@NotNull S source, @NotNull T target, @NotNull MappingSchema schema);
-
-
-  interface ObjectFactory {
-
-    @NotNull <T> T createInstance(@NotNull Class<T> targetClass);
-
-  }
 }

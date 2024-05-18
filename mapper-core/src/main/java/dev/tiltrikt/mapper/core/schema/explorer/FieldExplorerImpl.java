@@ -1,4 +1,4 @@
-package dev.tiltrikt.mapper.core.schema.field;
+package dev.tiltrikt.mapper.core.schema.explorer;
 
 import dev.tiltrikt.mapper.core.annotation.FieldMapping;
 import org.jetbrains.annotations.NotNull;
