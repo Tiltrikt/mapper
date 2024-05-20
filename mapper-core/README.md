@@ -3,7 +3,7 @@
 ## Dependencies
 ```groovy
 dependencies {
-  implementation "dev.tiltrikt:mapper-starter-spring:1.0.0"
+  implementation "dev.tiltrikt:mapper-core:1.0.0"
 }
 
 repositories {
@@ -17,13 +17,11 @@ repositories {
 
 ## Example
 ```java
-@Component
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Service {
 
   @NotNull
-  Mapper mapper;
+  Mapper mapper = new MapperImpl();
 
   public void example() {
     mapper.map(source, target);
@@ -36,16 +34,18 @@ public class Service {
 
 In case of need you can also configurate Mapper by yourself:
 ```java
-@Configuration
-public class MapperConfiguration() {
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class Service {
+
+  @NotNull
+  Mapper mapper;
   
-  @Bean
-  public Mapper mapper() {
-    MapperImpl mapper = new MapperImpl();
-    mapper.setObjectFactory(yourObjectFactory);
-    mapper.setMappingSchemaResolver(yourMappingSchemaResolver);
-    mapper.setMappingSchemaProcessor(yourMappingSchemaProcessor);
-    return mapper;
+  public Service() {
+    MapperImpl mapperImpl= new MapperImpl();
+    mapperImpl.setObjectFactory(yourObjectFactory);
+    mapperImpl.setMappingSchemaResolver(yourMappingSchemaResolver);
+    mapperImpl.setMappingSchemaProcessor(yourMappingSchemaProcessor);
+    mapper = mapperImpl;
   }
 }
 ```
