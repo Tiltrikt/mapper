@@ -17,13 +17,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Responsible for creating {@link MappingSchema} between source and target objects.<br>
+ *
+ * @see FieldExplorer
+ * @see ClassExplorer
+ */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
 
-  @NotNull FieldExplorer fieldExplorer = new FieldExplorerImpl();
+  @NotNull
+  FieldExplorer fieldExplorer = new FieldExplorerImpl();
 
-  @NotNull ClassExplorer classExplorer = new ClassExplorerImpl();
+  @NotNull
+  ClassExplorer classExplorer = new ClassExplorerImpl();
 
 
   /**
@@ -33,7 +41,6 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
    * @param source The object from which fields will be mapped.
    * @param target The object to which fields will be mapped.
    * @return A {@link MappingSchema} representing relation between source and target fields.
-   * @throws MappingSchemaException If a target field cannot be found for a certain source field.
    */
   @Override
   public <S, T> MappingSchema resolve(@NotNull S source,
@@ -55,7 +62,14 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
     return new MappingSchemaImpl(fieldMappingSchema);
   }
 
-
+  /**
+   * Retrieves the target field corresponding to the provided source field.
+   *
+   * @param sourceField     The source field for which the target field is to be retrieved.
+   * @param targetFieldsList The list of available for mapping fields present in {@code Target.class}.
+   * @return The target field corresponding to the provided source field.
+   * @throws MappingSchemaException If no target field is found for the provided source field.
+   */
   private @NotNull Field getTargetField(@NotNull Field sourceField,
                                         @NotNull List<Field> targetFieldsList) {
 

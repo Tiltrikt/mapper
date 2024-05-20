@@ -14,9 +14,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-class MappingSchemaProcessorImplTest {
+class MappingSchemaDefaultProcessorTest {
 
-  MappingSchemaProcessor mappingSchemaProcessor = new MappingSchemaProcessorImpl();
+  MappingSchemaProcessor mappingSchemaProcessor = new MappingSchemaDefaultProcessor();
 
   @SneakyThrows
   @Test
