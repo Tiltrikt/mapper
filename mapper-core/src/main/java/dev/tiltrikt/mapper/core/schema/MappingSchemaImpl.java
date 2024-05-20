@@ -29,7 +29,7 @@ public class MappingSchemaImpl implements MappingSchema {
    * @throws MappingSchemaException If no target field is found for the provided source field.
    */
   @Override
-  public @NotNull Field getTargetField(@NotNull Field sourceField) {
+  public @NotNull Field getTargetField(@NotNull Field sourceField) throws MappingSchemaException{
     return Optional.ofNullable(fieldMappingSchema.get(sourceField))
         .orElseThrow(
             () -> new MappingSchemaException("No targets found for field %s", sourceField.getName())

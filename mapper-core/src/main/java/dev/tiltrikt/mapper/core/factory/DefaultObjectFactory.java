@@ -21,7 +21,7 @@ public class DefaultObjectFactory implements ObjectFactory {
    */
   @Override
   @SneakyThrows
-  public <T> @NotNull T createInstance(@NotNull Class<T> targetClass) {
+  public <T> @NotNull T createInstance(@NotNull Class<T> targetClass) throws MissingConstructorException {
     try {
       Constructor<T> constructor = targetClass.getDeclaredConstructor();
       return constructor.newInstance();

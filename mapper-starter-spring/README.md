@@ -3,7 +3,7 @@
 ## Dependencies
 ```groovy
 dependencies {
-  implementation "dev.tiltrikt:mapper-starter-spring:1.0.0"
+  implementation "dev.tiltrikt:mapper-starter-spring:1.0.2"
 }
 
 repositories {
@@ -47,5 +47,18 @@ public class MapperConfiguration() {
     mapper.setMappingSchemaProcessor(yourMappingSchemaProcessor);
     return mapper;
   }
+}
+```
+
+You can also specify how fields should be mapped:
+```java
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class Dto {
+  
+  @FieldMapping(ignore = true)
+  User user;
+
+  @FieldMapping(targetName = "userMessage")
+  Message message;
 }
 ```

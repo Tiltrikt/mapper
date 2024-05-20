@@ -15,12 +15,12 @@ import org.jetbrains.annotations.NotNull;
  *    Example 1:
  *
  *    @FieldMapping(ignore = true)
- *    private final User;
+ *    private final User user;
  *
  *    Example 2:
  *
- *    @FieldMapping(TargetName = "userMessage")
- *    private final Message;
+ *    @FieldMapping(targetName = "userMessage")
+ *    private final Message message;
  *
  * }</pre>
  */

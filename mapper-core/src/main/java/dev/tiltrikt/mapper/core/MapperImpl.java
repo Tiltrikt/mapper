@@ -1,13 +1,16 @@
 package dev.tiltrikt.mapper.core;
 
+import dev.tiltrikt.mapper.core.exception.MappingSchemaException;
+import dev.tiltrikt.mapper.core.exception.MissingConstructorException;
 import dev.tiltrikt.mapper.core.factory.DefaultObjectFactory;
 import dev.tiltrikt.mapper.core.factory.ObjectFactory;
 import dev.tiltrikt.mapper.core.schema.MappingSchema;
-import dev.tiltrikt.mapper.core.schema.processor.MappingSchemaProcessor;
 import dev.tiltrikt.mapper.core.schema.processor.MappingSchemaDefaultProcessor;
+import dev.tiltrikt.mapper.core.schema.processor.MappingSchemaProcessor;
 import dev.tiltrikt.mapper.core.schema.resolver.MappingSchemaDefaultResolver;
 import dev.tiltrikt.mapper.core.schema.resolver.MappingSchemaResolver;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,17 +36,17 @@ public final class MapperImpl implements Mapper {
 
   /**
    * Maps the given source object to a new instance of the specified target class.
-   * Could lead to {@link dev.tiltrikt.mapper.core.exception.MissingConstructorException}
+   * Could lead to {@link MissingConstructorException}
    * if target class doesn't have default constructor. To avoid it create object by
    * yourself and use another method or implement custom {@link ObjectFactory}.
    *
-   * @param source The source object to map from.
+   * @param source      The source object to map from.
    * @param targetClass The class of the target object.
    * @return A new instance of the target class mapped from the source object.
-   * @throws dev.tiltrikt.mapper.core.exception.MissingConstructorException If object of target class couldn't be created.
+   * @throws MissingConstructorException If object of target class couldn't be created.
    */
   @Override
-  public <S, T> @NotNull T map(@NotNull S source, Class<T> targetClass) {
+  public <S, T> @NotNull T map(@NotNull S source, Class<T> targetClass) throws MissingConstructorException {
     T target = objectFactory.createInstance(targetClass);
     return map(source, target);
   }
@@ -66,20 +69,23 @@ public final class MapperImpl implements Mapper {
    * the provided {@link MappingSchema}. It gives more control on mapping process.
    * Could be useful if you need to map not trivial object, but you don't want to implement
    * own {@link MappingSchemaResolver}.<br>
-   *
-   * Could lead to {@link dev.tiltrikt.mapper.core.exception.MissingConstructorException}
+   * <p>
+   * Could lead to {@link MissingConstructorException}
    * if target class doesn't have default constructor. To avoid it create object by
-   * yourself and use another method or implement custom {@link dev.tiltrikt.mapper.core.factory.ObjectFactory}.
+   * yourself and use another method or implement custom {@link ObjectFactory}.
    *
-   * @param source The source object to map from.
+   * @param source      The source object to map from.
    * @param targetClass The class of the target object.
-   * @param schema The mapping schema to use.
+   * @param schema      The mapping schema to use.
    * @return A new instance of the target class mapped from the source object.
-   * @throws dev.tiltrikt.mapper.core.exception.MissingConstructorException If object of target class couldn't be created.
-   * @throws dev.tiltrikt.mapper.core.exception.MappingSchemaException If {@code MappingSchema} was created incorrectly.
+   * @throws MissingConstructorException If object of target class couldn't be created.
+   * @throws MappingSchemaException      If {@code MappingSchema} was created incorrectly.
    */
   @Override
-  public <S, T> @NotNull T map(@NotNull S source, @NotNull Class<T> targetClass, @NotNull MappingSchema schema) {
+  public <S, T> @NotNull T map(@NotNull S source,
+                               @NotNull Class<T> targetClass,
+                               @NotNull MappingSchema schema) throws MissingConstructorException, MappingSchemaException {
+
     T target = objectFactory.createInstance(targetClass);
     return map(source, target, schema);
   }
@@ -94,10 +100,13 @@ public final class MapperImpl implements Mapper {
    * @param target The target object to map to.
    * @param schema The mapping schema to use.
    * @return The target object after mapping.
-   * @throws dev.tiltrikt.mapper.core.exception.MappingSchemaException If {@code MappingSchema} was created incorrectly.
+   * @throws MappingSchemaException If {@code MappingSchema} was created incorrectly.
    */
   @Override
-  public <S, T> @NotNull T map(@NotNull S source, @NotNull T target, @NotNull MappingSchema schema) {
+  public <S, T> @NotNull T map(@NotNull S source,
+                               @NotNull T target,
+                               @NotNull MappingSchema schema) throws MappingSchemaException {
+
     return mappingSchemaProcessor.map(source, target, schema);
   }
 }
