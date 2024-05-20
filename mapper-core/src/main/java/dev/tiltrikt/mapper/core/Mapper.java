@@ -31,8 +31,7 @@ public interface Mapper {
     /**
      * Maps the given source object to a new instance of the specified target class using
      * the provided {@link MappingSchema}. It gives more control on mapping process.
-     * Could be useful if you need to map not trivial object, but you don't want to implement
-     * own {@link dev.tiltrikt.mapper.core.schema.resolver.MappingSchemaResolver}.
+     * Could be useful if you need to map not trivial object.
      *
      * @param source The source object to map from.
      * @param targetClass The class of the target object.
@@ -44,8 +43,7 @@ public interface Mapper {
     /**
      * Maps the given source object to the specified target object using
      * the provided {@link MappingSchema}. It gives more control on mapping process.
-     * Could be useful if you need to map not trivial object, but you don't want to implement
-     * own {@link dev.tiltrikt.mapper.core.schema.resolver.MappingSchemaResolver}.
+     * Could be useful if you need to map not trivial object.
      *
      * @param source The source object to map from.
      * @param target The target object to map to.
