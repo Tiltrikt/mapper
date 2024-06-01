@@ -5,6 +5,8 @@ import dev.tiltrikt.mapper.core.model.AnnotatedFieldModel;
 import dev.tiltrikt.mapper.core.model.AnnotatedIgnoreFieldModel;
 import dev.tiltrikt.mapper.core.model.AnnotatedTargetNameFieldModel;
 import dev.tiltrikt.mapper.core.model.SimpleFieldModel;
+import dev.tiltrikt.mapper.core.model.inner.InnerSource;
+import dev.tiltrikt.mapper.core.model.inner.InnerTarget;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
@@ -28,7 +30,15 @@ class MappingSchemaImplTest {
 
   static Field annotatedTargetNameField;
 
+  static Field innerSource;
+
+  static Field innerTarget;
+
   static final Map<Field, Field> fieldMap = new HashMap<>();
+
+  static MappingSchema innerMappingSchema;
+
+  static final Map<Field, MappingSchema> innerMappingSchemas = new HashMap<>();
 
   static MappingSchema mappingSchema;
 
@@ -40,12 +50,18 @@ class MappingSchemaImplTest {
     annotatedField = AnnotatedFieldModel.class.getDeclaredField("field");
     annotatedIgnoreField = AnnotatedIgnoreFieldModel.class.getDeclaredField("field");
     annotatedTargetNameField = AnnotatedTargetNameFieldModel.class.getDeclaredField("field");
+    innerSource = InnerSource.class.getDeclaredField("field");
+    innerTarget = InnerTarget.class.getDeclaredField("field");
 
     fieldMap.put(simpleField, simpleField);
     fieldMap.put(annotatedField, annotatedField);
     fieldMap.put(annotatedTargetNameField, annotatedTargetNameField);
+    fieldMap.put(innerSource, innerTarget);
 
-    mappingSchema = new MappingSchemaImpl(fieldMap);
+    innerMappingSchema = new MappingSchemaImpl(Map.of(innerSource, innerTarget));
+    innerMappingSchemas.put(innerSource, innerMappingSchema);
+
+    mappingSchema = new MappingSchemaImpl(fieldMap, innerMappingSchemas);
   }
 
   @Test
@@ -53,6 +69,7 @@ class MappingSchemaImplTest {
     assertTrue(mappingSchema.getFieldsToMap().contains(simpleField));
     assertTrue(mappingSchema.getFieldsToMap().contains(annotatedField));
     assertTrue(mappingSchema.getFieldsToMap().contains(annotatedTargetNameField));
+    assertTrue(mappingSchema.getFieldsToMap().contains(innerSource));
   }
 
   @Test
@@ -65,5 +82,15 @@ class MappingSchemaImplTest {
   @Test
   void givenFieldNotContainedInMappingSchema_whenGetTargetField_thenThrownException() {
     assertThrows(MappingSchemaException.class, () -> mappingSchema.getTargetField(annotatedIgnoreField));
+  }
+
+  @Test
+  void givenFieldContainedInInnerMappingSchema_whenGetInnerMappingSchema_thenReturnedTargetMappingSchema() {
+    assertEquals(innerMappingSchema, mappingSchema.getInnerMappingSchema(innerSource));
+  }
+
+  @Test
+  void givenFieldNotContainedInInnerMappingSchema_whenGetInnerMappingSchema_thenThrownException() {
+    assertThrows(MappingSchemaException.class, () -> mappingSchema.getInnerMappingSchema(simpleField));
   }
 }

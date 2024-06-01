@@ -1,6 +1,9 @@
 package dev.tiltrikt.mapper.core.schema.explorer;
 
-import dev.tiltrikt.mapper.core.model.*;
+import dev.tiltrikt.mapper.core.model.AnnotatedFieldModel;
+import dev.tiltrikt.mapper.core.model.AnnotatedIgnoreFieldModel;
+import dev.tiltrikt.mapper.core.model.AnnotatedTargetNameFieldModel;
+import dev.tiltrikt.mapper.core.model.SimpleFieldModel;
 import dev.tiltrikt.mapper.core.model.inheritance.ChildModel;
 import dev.tiltrikt.mapper.core.model.inheritance.ParentModel;
 import lombok.AccessLevel;
@@ -12,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class ClassExplorerImplTest {

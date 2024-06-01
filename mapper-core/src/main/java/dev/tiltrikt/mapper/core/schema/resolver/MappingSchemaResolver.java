@@ -15,4 +15,12 @@ public interface MappingSchemaResolver {
    * @return A {@link MappingSchema} representing relation between source and target fields.
    */
   <S, T> MappingSchema resolve(@NotNull S source, @NotNull T target);
+
+  /** Resolves a mapping schema between source and target classes.
+   *
+   * @param sourceClass The class from which fields will be mapped.
+   * @param targetClass The class to which fields will be mapped.
+   * @return A {@link MappingSchema} representing relation between source and target fields.
+   */
+  <S, T> MappingSchema resolve(@NotNull Class<S> sourceClass, @NotNull Class<T> targetClass);
 }

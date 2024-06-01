@@ -14,6 +14,7 @@ public class MappingSchemaDefaultProcessor implements MappingSchemaProcessor {
 
   /**
    * Maps fields from a source object to a target object based on the provided {@link MappingSchema}.
+   * It also recursively maps inner objects using {@code innerMappingSchemas} from {@link MappingSchema}.
    *
    * @param source The source object from which map fields.
    * @param target The target object to which map fields.
@@ -32,7 +33,11 @@ public class MappingSchemaDefaultProcessor implements MappingSchemaProcessor {
       Object object = sourceField.get(source);
       Field targetField = schema.getTargetField(sourceField);
       targetField.setAccessible(true);
-      targetField.set(target, object);
+      try {
+        targetField.set(target, object);
+      } catch (IllegalArgumentException e) {
+        map(sourceField.get(source), targetField.get(target), schema.getInnerMappingSchema(sourceField));
+      }
     }
     return target;
   }

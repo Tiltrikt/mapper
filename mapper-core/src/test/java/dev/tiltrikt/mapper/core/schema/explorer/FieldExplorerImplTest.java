@@ -1,6 +1,9 @@
 package dev.tiltrikt.mapper.core.schema.explorer;
 
-import dev.tiltrikt.mapper.core.model.*;
+import dev.tiltrikt.mapper.core.model.AnnotatedFieldModel;
+import dev.tiltrikt.mapper.core.model.AnnotatedIgnoreFieldModel;
+import dev.tiltrikt.mapper.core.model.AnnotatedTargetNameFieldModel;
+import dev.tiltrikt.mapper.core.model.SimpleFieldModel;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;

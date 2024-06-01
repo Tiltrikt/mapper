@@ -20,7 +20,7 @@ allprojects {
     [compileJava, javadoc]*.options*.encoding = 'UTF-8'
 
     group = 'dev.tiltrikt'
-    version = '1.0.2'
+    version = '1.1.0'
 
     sourceCompatibility = '17'
     targetCompatibility = '17'

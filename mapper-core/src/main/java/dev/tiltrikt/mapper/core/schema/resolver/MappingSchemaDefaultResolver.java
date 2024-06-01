@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -37,29 +38,51 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
   /**
    * Resolves a mapping schema between source and target objects.
    * If a target field cannot be found no exception is thrown, but a warning message is logged.
+   * It goes recursively through all inner field and creates additional mapping schemas in case of need.
    *
    * @param source The object from which fields will be mapped.
    * @param target The object to which fields will be mapped.
    * @return A {@link MappingSchema} representing relation between source and target fields.
    */
   @Override
-  public <S, T> MappingSchema resolve(@NotNull S source,
-                                      @NotNull T target) {
+  public <S, T> MappingSchema resolve(@NotNull S source, @NotNull T target) {
+
+    return resolve(source.getClass(), target.getClass());
+  }
+
+  /**
+   * Resolves a mapping schema between source and target classes.
+   * If a target field cannot be found no exception is thrown, but a warning message is logged.<br>
+   * It goes recursively through all inner field and creates additional mapping schemas in case of need.
+   *
+   * @param sourceClass The class from which fields will be mapped.
+   * @param targetClass The class to which fields will be mapped.
+   * @return A {@link MappingSchema} representing relation between source and target fields.
+   */
+  @Override
+  public <S, T> MappingSchema resolve(@NotNull Class<S> sourceClass, @NotNull Class<T> targetClass) {
 
     Map<Field, Field> fieldMappingSchema = new HashMap<>();
+    Map<Field, MappingSchema> innerMappingSchemas = new HashMap<>();
 
-    List<Field> sourceFieldsList = classExplorer.getMappableFields(source.getClass());
-    List<Field> targetFieldsList = classExplorer.getMappableFields(target.getClass());
+    List<Field> sourceFieldsList = classExplorer.getMappableFields(sourceClass);
+    List<Field> targetFieldsList = classExplorer.getMappableFields(targetClass);
 
     for (Field sourceField : sourceFieldsList) {
       try {
-        fieldMappingSchema.put(sourceField, getTargetField(sourceField, targetFieldsList));
+        Field targetField = getTargetField(sourceField, targetFieldsList);
+        fieldMappingSchema.put(sourceField, targetField);
+
+        Map<Field, MappingSchema> innerFieldMappingSchemaForField = resolveInnerFieldMappingSchema(sourceField, targetField);
+        if (innerFieldMappingSchemaForField != null) {
+          innerMappingSchemas.putAll(innerFieldMappingSchemaForField);
+        }
       } catch (MappingSchemaException e) {
         log.warn(e.getMessage());
       }
     }
 
-    return new MappingSchemaImpl(fieldMappingSchema);
+    return new MappingSchemaImpl(fieldMappingSchema, innerMappingSchemas);
   }
 
   /**
@@ -79,5 +102,25 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
         .filter(field -> fieldExplorer.getMappingName(field).equals(sourceFieldName))
         .findFirst()
         .orElseThrow(() -> new MappingSchemaException("Cannot find target field for: %s", sourceFieldName));
+  }
+
+  /**
+   * Resolves the inner field mapping schema between the source and target fields.
+   * If the types of the source and target fields are the same, returns {@code null}.
+   * It means that no additional actions are required to map these fields.
+   * Otherwise, it resolves a {@link MappingSchema} between the types of the source and target fields.
+   *
+   * @param sourceField the source {@link Field} to be mapped, must not be {@code null}
+   * @param targetField the target {@link Field} to be mapped, must not be {@code null}
+   * @return a map containing the source field and its corresponding {@link MappingSchema},
+   *         or {@code null} if the source and target fields have the same type
+   */
+  private @Nullable Map<Field, MappingSchema> resolveInnerFieldMappingSchema(@NotNull Field sourceField, @NotNull Field targetField) {
+    if (sourceField.getType().equals(targetField.getType())) {
+      return null;
+    }
+
+    MappingSchema mappingSchema = resolve(sourceField.getType(), targetField.getType());
+    return Map.of(sourceField, mappingSchema);
   }
 }

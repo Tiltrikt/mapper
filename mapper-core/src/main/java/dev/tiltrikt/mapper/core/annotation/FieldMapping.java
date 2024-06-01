@@ -1,10 +1,11 @@
 package dev.tiltrikt.mapper.core.annotation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Specifies mapping details for fields. It is used in combination with {@link dev.tiltrikt.mapper.core.Mapper}.

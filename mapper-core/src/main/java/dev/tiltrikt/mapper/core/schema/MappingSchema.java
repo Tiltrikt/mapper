@@ -21,6 +21,15 @@ public interface MappingSchema {
   @NotNull Field getTargetField(@NotNull Field sourceField) throws MappingSchemaException;
 
   /**
+   * Retrieves the target mapping schema associated with the provided source field.
+   *
+   * @param sourceField The source field for which the target mapping schema is to be retrieved.
+   * @return The inner mapping schema associated with the provided source field.
+   * @throws MappingSchemaException If no mapping schema is found for the provided source field.
+   */
+  @NotNull MappingSchema getInnerMappingSchema(@NotNull Field sourceField) throws MappingSchemaException;
+
+  /**
    * Retrieves a list of all source fields present in the mapping schema.
    *
    * @return A list containing all source fields present in the mapping schema.
