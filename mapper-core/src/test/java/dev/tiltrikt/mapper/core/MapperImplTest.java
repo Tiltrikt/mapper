@@ -125,5 +125,4 @@ class MapperImplTest {
         times(1)
     ).map(any(SimpleFieldModel.class), any(SimpleFieldModel.class), any(MappingSchemaImpl.class));
   }
-
 }

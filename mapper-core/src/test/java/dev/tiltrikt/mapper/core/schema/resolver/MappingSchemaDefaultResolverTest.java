@@ -6,6 +6,8 @@ import dev.tiltrikt.mapper.core.model.inner.InnerSource;
 import dev.tiltrikt.mapper.core.model.inner.InnerTarget;
 import dev.tiltrikt.mapper.core.model.inner.SourceInnerFieldModel;
 import dev.tiltrikt.mapper.core.model.inner.TargetInnerFieldModel;
+import dev.tiltrikt.mapper.core.model.primitive.PrimitiveFieldModel;
+import dev.tiltrikt.mapper.core.model.primitive.PrimitiveWrapperFieldModel;
 import dev.tiltrikt.mapper.core.schema.MappingSchema;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
@@ -46,4 +48,27 @@ class MappingSchemaDefaultResolverTest {
     assertEquals(1, mappingSchema.getFieldsToMap().size());
   }
 
+  @Test
+  void givenFieldsAsPrimitives_whenResolve_thenReturnedSchemaContainsField() {
+    assertEquals(
+        1,
+        mappingSchemaResolver.resolve(new PrimitiveFieldModel(5), new PrimitiveFieldModel(1)).getFieldsToMap().size()
+    );
+  }
+
+  @Test
+  void givenFieldsAsPrimitiveAndPrimitiveWrapper_whenResolve_thenReturnedSchemaContainsField() {
+    assertEquals(
+        1,
+        mappingSchemaResolver.resolve(new PrimitiveFieldModel(5), new PrimitiveWrapperFieldModel(1)).getFieldsToMap().size()
+    );
+  }
+
+  @Test
+  void givenFieldsAsPrimitiveWrapperAndPrimitive_whenResolve_thenReturnedSchemaContainsField() {
+    assertEquals(
+        1,
+        mappingSchemaResolver.resolve(new PrimitiveWrapperFieldModel(5), new PrimitiveFieldModel(1)).getFieldsToMap().size()
+    );
+  }
 }

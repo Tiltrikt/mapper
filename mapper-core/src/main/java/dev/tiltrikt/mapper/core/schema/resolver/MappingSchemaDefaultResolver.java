@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -106,8 +107,8 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
 
   /**
    * Resolves the inner field mapping schema between the source and target fields.
-   * If the types of the source and target fields are the same, returns {@code null}.
-   * It means that no additional actions are required to map these fields.
+   * If the types of the source and target fields are the same (primitives are wrapped before comparison),
+   * returns {@code null}. It means that no additional actions are required to map these fields.
    * Otherwise, it resolves a {@link MappingSchema} between the types of the source and target fields.
    *
    * @param sourceField the source {@link Field} to be mapped, must not be {@code null}
@@ -115,8 +116,13 @@ public class MappingSchemaDefaultResolver implements MappingSchemaResolver {
    * @return a map containing the source field and its corresponding {@link MappingSchema},
    *         or {@code null} if the source and target fields have the same type
    */
-  private @Nullable Map<Field, MappingSchema> resolveInnerFieldMappingSchema(@NotNull Field sourceField, @NotNull Field targetField) {
-    if (sourceField.getType().equals(targetField.getType())) {
+  private @Nullable Map<Field, MappingSchema> resolveInnerFieldMappingSchema(@NotNull Field sourceField,
+                                                                             @NotNull Field targetField) {
+
+    Class<?> sourceWrappedClass = MethodType.methodType(sourceField.getType()).wrap().returnType();
+    Class<?> targetWrappedClass = MethodType.methodType(targetField.getType()).wrap().returnType();
+
+    if (sourceWrappedClass.equals(targetWrappedClass)) {
       return null;
     }
 

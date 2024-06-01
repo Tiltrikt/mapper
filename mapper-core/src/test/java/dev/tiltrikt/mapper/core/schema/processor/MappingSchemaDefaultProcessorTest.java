@@ -5,6 +5,8 @@ import dev.tiltrikt.mapper.core.model.inner.InnerSource;
 import dev.tiltrikt.mapper.core.model.inner.InnerTarget;
 import dev.tiltrikt.mapper.core.model.inner.SourceInnerFieldModel;
 import dev.tiltrikt.mapper.core.model.inner.TargetInnerFieldModel;
+import dev.tiltrikt.mapper.core.model.primitive.PrimitiveFieldModel;
+import dev.tiltrikt.mapper.core.model.primitive.PrimitiveWrapperFieldModel;
 import dev.tiltrikt.mapper.core.schema.MappingSchema;
 import dev.tiltrikt.mapper.core.schema.MappingSchemaImpl;
 import lombok.AccessLevel;
@@ -52,5 +54,46 @@ class MappingSchemaDefaultProcessorTest {
     TargetInnerFieldModel afterMappingObject = mappingSchemaProcessor.map(sourceObject, targetObject, mappingSchema);
 
     assertEquals("sourceObject", afterMappingObject.getField().getField());
+  }
+
+  @SneakyThrows
+  @Test
+  void givenMappingSchemaWithPrimitives_whenMap_thenReturnedTargetObjectWithMappedFields() {
+    PrimitiveFieldModel sourceObject = new PrimitiveFieldModel(5);
+    PrimitiveFieldModel targetObject = new PrimitiveFieldModel(1);
+    Field field = PrimitiveFieldModel.class.getDeclaredField("field");
+    MappingSchema mappingSchema = new MappingSchemaImpl(Map.of(field, field));
+
+    PrimitiveFieldModel afterMappingObject = mappingSchemaProcessor.map(sourceObject, targetObject, mappingSchema);
+
+    assertEquals(5, afterMappingObject.getField());
+  }
+
+  @SneakyThrows
+  @Test
+  void givenMappingSchemaWithPrimitiveAndPrimitiveWrapper_whenMap_thenReturnedTargetObjectWithMappedFields() {
+    PrimitiveFieldModel sourceObject = new PrimitiveFieldModel(5);
+    PrimitiveWrapperFieldModel targetObject = new PrimitiveWrapperFieldModel(1);
+    Field sourceField = PrimitiveFieldModel.class.getDeclaredField("field");
+    Field targetField = PrimitiveWrapperFieldModel.class.getDeclaredField("field");
+    MappingSchema mappingSchema = new MappingSchemaImpl(Map.of(sourceField, targetField));
+
+    PrimitiveWrapperFieldModel afterMappingObject = mappingSchemaProcessor.map(sourceObject, targetObject, mappingSchema);
+
+    assertEquals(5, afterMappingObject.getField());
+  }
+
+  @SneakyThrows
+  @Test
+  void givenMappingSchemaWithPrimitiveWrapperAndPrimitive_whenMap_thenReturnedTargetObjectWithMappedFields() {
+    PrimitiveWrapperFieldModel sourceObject = new PrimitiveWrapperFieldModel(5);
+    PrimitiveFieldModel targetObject = new PrimitiveFieldModel(1);
+    Field sourceField = PrimitiveWrapperFieldModel.class.getDeclaredField("field");
+    Field targetField = PrimitiveFieldModel.class.getDeclaredField("field");
+    MappingSchema mappingSchema = new MappingSchemaImpl(Map.of(sourceField, targetField));
+
+    PrimitiveFieldModel afterMappingObject = mappingSchemaProcessor.map(sourceObject, targetObject, mappingSchema);
+
+    assertEquals(5, afterMappingObject.getField());
   }
 }
