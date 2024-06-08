@@ -3,7 +3,7 @@
 ## Dependencies
 ```groovy
 dependencies {
-  implementation "dev.tiltrikt:mapper-core:1.0.2"
+  implementation "dev.tiltrikt:mapper-core:<current version>"
 }
 
 repositories {
@@ -26,29 +26,41 @@ public class Service {
   public void example() {
     mapper.map(source, target);
     mapper.map(source, Target.class);
-    mapper.map(source, target, mappingSchema);
-    mapper.map(source, Target.class, mappingSchema);
+  }
+}
+```
+<br>
+
+You could implement you custom **MappingProvider** for non-traditional mapping
+```java
+public class UserToUserDtoMappingProvider implements MappingProvider<User, UserDto> {
+
+  @Override
+  public @NotNull UserDto map(@NotNull User source, @NotNull UserDto target) {
+    target.setName(source.getName() + "Dto");
+    target.setSurname(source.getSurname() + "Dto");
+    return target;
   }
 }
 ```
 
-In case of need you can also configurate Mapper by yourself:
+And then use it
 ```java
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class Service {
+public class MapperWithProviderTest {
 
-  @NotNull
   Mapper mapper;
-  
-  public Service() {
-    MapperImpl mapperImpl= new MapperImpl();
-    mapperImpl.setObjectFactory(yourObjectFactory);
-    mapperImpl.setMappingSchemaResolver(yourMappingSchemaResolver);
-    mapperImpl.setMappingSchemaProcessor(yourMappingSchemaProcessor);
+
+  public MapperWithProviderTest() {
+    DefaultMappingManager mappingManager = new DefaultMappingManager();
+    mappingManager.setProviders(List.of(new UserToUserDtoMappingProvider()));
+    MapperImpl mapperImpl = new MapperImpl();
+    mapperImpl.setMappingManager(mappingManager);
     mapper = mapperImpl;
   }
 }
 ```
+<br>
 
 You can also specify how fields should be mapped:
 ```java

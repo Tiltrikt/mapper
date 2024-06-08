@@ -6,14 +6,16 @@ configurable. This project could help you avoid boilerplate code. Most popular u
 
 ## How it works
 ```
-Step 1: ObjectFactory
+### Step 1: Mapper
 ---------------------------------------------------------
 |                                                       |
 |    +------------------------+                         |
 |    |                        |                         |
-|    |  New Instance          |                         |
-|    |  of Target Class       |                         |
-|    |  (TargetObject)        |                         |
+|    |  Adapter for           |                         |
+|    |  MappingManager        |                         |
+|    |                        |                         |
+|    |  Gives convenient      |                         |
+|    |  methods for mapping   |                         |
 |    |                        |                         |
 |    +------------------------+                         |
 |                                                       |
@@ -22,7 +24,50 @@ Step 1: ObjectFactory
                |
                v
 
-Step 2: MappingSchemaResolver
+### Step 2: MappingManager
+---------------------------------------------------------
+|                                                       |
+|    +------------------------+                         |
+|    |                        |                         |
+|    |  Choose Provider       |                         |
+|    |  - Custom Provider     |                         |
+|    |  - Basic Mapper        |                         |
+|    |                        |                         |
+|    |  +-------------------+ |                         |
+|    |  | CustomProvider1   | |                         |
+|    |  +-------------------+ |                         |
+|    |  | CustomProvider2   | |                         |
+|    |  +-------------------+ |                         |
+|    |  | ...               | |                         |
+|    |  +-------------------+ |                         |
+|    |  | Basic Mapper      | |                         |
+|    |  +-------------------+ |                         |
+|    |                        |                         |
+|    +------------------------+                         |
+|                                                       |
+---------------------------------------------------------
+                                                
+                                            /             \
+                                           v               v
+
+### Step 3: MappingProvider
+----------------------------------------            ----------------------------------------
+|                                      |            |                                      |
+|    +------------------------+        |            |    +------------------------+        |
+|    |                        |        |            |    |                        |        |
+|    |  Your Custom Provider  |        |            |    |  Basic Mapper          |        |
+|    |                        |        |            |    |                        |        |
+|    +------------------------+        |            |    +------------------------+        |
+|                                      |            |                                      |
+----------------------------------------            ----------------------------------------
+
+
+
+```
+
+## How works Basic Mapper
+```
+Step 1: MappingSchemaResolver
 ---------------------------------------------------------
 |                                                       |
 |    +------------------------+                         |
@@ -47,7 +92,7 @@ Step 2: MappingSchemaResolver
                |
                v
 
-Step 3: MappingSchemaProcessor
+Step 2: MappingSchemaProcessor
 ---------------------------------------------------------
 |                                                       |
 |    +------------------------+                         |
@@ -88,8 +133,6 @@ Step 3: MappingSchemaProcessor
 ---------------------------------------------------------
 
 ```
-
-<em>Note: some steps might be omitted depends on the method of **Mapper** you choose</em>
 
 ## Getting started
 - [mapper-starter-spring](./mapper-starter-spring/README.md)

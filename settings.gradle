@@ -8,7 +8,10 @@ rootProject.name = 'mapper'
 
 [
         'mapper-core',
-        'mapper-starter-spring',
+        'spring-boot-starter-mapper',
+
+        'mapper-core-example',
+        'spring-boot-starter-mapper-example'
 ].forEach {
     include it
 }

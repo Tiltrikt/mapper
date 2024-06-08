@@ -1,6 +1,6 @@
 package dev.tiltrikt.mapper.core.model;
 
-import dev.tiltrikt.mapper.core.annotation.FieldMapping;
+import dev.tiltrikt.mapper.core.basic.annotation.FieldMapping;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

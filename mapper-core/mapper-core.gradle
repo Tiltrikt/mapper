@@ -1,5 +1,6 @@
 dependencies {
   implementation "org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion"
+  implementation "org.springframework:spring-core:$springCoreVersion"
 
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
   testCompileOnly "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"

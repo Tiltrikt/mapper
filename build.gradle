@@ -39,29 +39,29 @@ allprojects {
         testCompileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     }
 
-    publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/tiltrikt/mapper")
-                credentials {
-                    username = System.getenv("USERNAME")
-                    password = System.getenv("TOKEN")
-                }
-            }
-        }
-        publications {
-            mapper(MavenPublication) {
-                from(components.java)
-
-                groupId = project.group
-                artifactId = project.name
-                version = project.version
-
-                pom {
-                    description = 'Mapper'
-                }
-            }
-        }
-    }
+//    publishing {
+//        repositories {
+//            maven {
+//                name = "GitHubPackages"
+//                url = uri("https://maven.pkg.github.com/tiltrikt/mapper")
+//                credentials {
+//                    username = System.getenv("USERNAME")
+//                    password = System.getenv("TOKEN")
+//                }
+//            }
+//        }
+//        publications {
+//            mapper(MavenPublication) {
+//                from(components.java)
+//
+//                groupId = project.group
+//                artifactId = project.name
+//                version = project.version
+//
+//                pom {
+//                    description = 'Mapper'
+//                }
+//            }
+//        }
+//    }
 }
