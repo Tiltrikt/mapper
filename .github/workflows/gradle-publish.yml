@@ -2,7 +2,7 @@ name: Publish to GitHub packages
 
 on:
   push:
-    branches: ['master']
+    branches: [ 'master' ]
 
 jobs:
   build:
@@ -14,31 +14,28 @@ jobs:
       packages: write
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        server-id: github
-        settings-path: ${{ github.workspace }}
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
 
-    - name: Make gradlew executable
-      run: |
-        chmod +x gradlew
-        git update-index --chmod=+x gradlew
+      - name: Make gradlew executable
+        run: |
+          chmod +x gradlew
+          git update-index --chmod=+x gradlew
 
+      - name: Run tests
+        run: ./gradlew test
 
-#    - name: Run tests
-#      run: ./gradlew test
-
-    - name: Publish to GitHub Packages
-      run: |
-        echo $REPOSILITE_USERNAME
-        echo $REPOSILITE_SECRET
-      env:
-        REPOSILITE_USERNAME: ${{ vars.REPOSILITE_USERNAME }}
-        REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish
+        env:
+          REPOSILITE_USERNAME: ${{ vars.REPOSILITE_USERNAME }}
+          REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
