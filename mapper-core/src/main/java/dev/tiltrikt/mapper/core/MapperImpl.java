@@ -26,6 +26,7 @@ public final class MapperImpl implements Mapper {
   @NotNull
   ObjectFactory objectFactory = new DefaultObjectFactory();
 
+
   /**
    * Maps the given source object to a new instance of the specified target class.
    * Could lead to {@link MissingConstructorException}
