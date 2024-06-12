@@ -1,67 +1,68 @@
+//file:noinspection GroovyAssignabilityCheck
 plugins {
-    id 'idea'
-    id 'java-library'
-    id 'maven-publish'
-    id 'org.springframework.boot' version "$springBootVersion"
-    id 'io.spring.dependency-management' version "$springDependencyManagementPluginVersion"
+  id 'idea'
+  id 'java-library'
+  id 'maven-publish'
+  id 'org.springframework.boot' version "$springBootVersion"
+  id 'io.spring.dependency-management' version "$springDependencyManagementPluginVersion"
 }
 
 allprojects {
 
-    apply plugin: 'idea'
-    apply plugin: 'java-library'
-    apply plugin: 'maven-publish'
+  apply plugin: 'idea'
+  apply plugin: 'java-library'
 
-    java {
-        withSourcesJar()
-        withJavadocJar()
+  java {
+    withSourcesJar()
+    withJavadocJar()
+  }
+
+  [compileJava, javadoc]*.options*.encoding = 'UTF-8'
+
+  group = 'dev.tiltrikt.mapper'
+  version = '1.1.1'
+
+  sourceCompatibility = '17'
+  targetCompatibility = '17'
+
+  tasks.named('test') {
+    useJUnitPlatform()
+  }
+
+  dependencies {
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+  }
+
+  if (!project.name.contains('example') && project.name != 'mapper') {
+    publishing {
+      publications {
+        "$project.name"(MavenPublication) {
+          from components.java
+          groupId = project.group
+          artifactId = project.name
+          version = project.version
+        }
+      }
     }
+  }
+}
 
-    [compileJava, javadoc]*.options*.encoding = 'UTF-8'
-
-    group = 'dev.tiltrikt'
-    version = '1.1.1'
-
-    sourceCompatibility = '17'
-    targetCompatibility = '17'
-
-    tasks.named('test') {
-        useJUnitPlatform()
+publishing {
+  repositories {
+    maven {
+      name = "TiltriktAWS"
+      url = "http://3.64.29.150:8080/releases"
+      credentials {
+        username = System.getenv("REPOSILITE_USRENAME")
+        password = System.getenv("REPOSILITE_SECRET")
+      }
+      allowInsecureProtocol = true
     }
-
-    dependencies {
-        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-        compileOnly "org.projectlombok:lombok:$lombokVersion"
-        compileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-
-        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-        testCompileOnly "org.projectlombok:lombok:$lombokVersion"
-        testCompileOnly "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-    }
-
-//    publishing {
-//        repositories {
-//            maven {
-//                name = "GitHubPackages"
-//                url = uri("https://maven.pkg.github.com/tiltrikt/mapper")
-//                credentials {
-//                    username = System.getenv("USERNAME")
-//                    password = System.getenv("TOKEN")
-//                }
-//            }
-//        }
-//        publications {
-//            mapper(MavenPublication) {
-//                from(components.java)
-//
-//                groupId = project.group
-//                artifactId = project.name
-//                version = project.version
-//
-//                pom {
-//                    description = 'Mapper'
-//                }
-//            }
-//        }
-//    }
+  }
 }
