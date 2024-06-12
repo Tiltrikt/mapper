@@ -36,5 +36,5 @@ jobs:
     - name: Publish to GitHub Packages
       run: ./gradlew publish
       env:
-        REPOSILITE_USERNAME: ${{ github.REPOSILITE_USERNAME }}
+        REPOSILITE_USERNAME: ${{ variables.REPOSILITE_USERNAME }}
         REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
