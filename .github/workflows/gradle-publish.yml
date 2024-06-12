@@ -30,6 +30,7 @@ jobs:
         chmod +x gradlew
         git update-index --chmod=+x gradlew
 
+
 #    - name: Run tests
 #      run: ./gradlew test
 
