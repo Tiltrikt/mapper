@@ -34,7 +34,10 @@ jobs:
       run: ./gradlew test
 
     - name: Publish to GitHub Packages
-      run: ./gradlew publish
+      run: |
+        ./gradlew publish
+        echo REPOSILITE_USERNAME
+        echo REPOSILITE_SECRET
       env:
         REPOSILITE_USERNAME: ${{ vars.REPOSILITE_USERNAME }}
         REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
