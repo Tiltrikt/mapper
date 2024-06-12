@@ -35,7 +35,6 @@ jobs:
 
     - name: Publish to GitHub Packages
       run: |
-        ./gradlew publish
         echo REPOSILITE_USERNAME
         echo REPOSILITE_SECRET
       env:
