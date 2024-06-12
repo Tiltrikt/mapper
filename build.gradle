@@ -59,7 +59,7 @@ publishing {
       name = "TiltriktAWS"
       url = "http://3.64.29.150:8080/releases"
       credentials {
-        username = System.getenv("REPOSILITE_USRENAME")
+        username = System.getenv("REPOSILITE_USERNAME")
         password = System.getenv("REPOSILITE_SECRET")
       }
       allowInsecureProtocol = true
